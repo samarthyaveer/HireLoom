@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { log } from 'console';
 
-const API_KEY = "AIzaSyDgK_VdSnfdIXwoYwm-qY-yh0Tnl13SGwQ";
-const MODEL_NAME = "gemini-2.0-flash";
+const API_KEY = process.env.GEMINI_API_KEY;
+const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-2.0-flash";
 
 export async function POST(request) {
   try {
@@ -12,6 +12,11 @@ export async function POST(request) {
 
     if (!resumeText) {
       return NextResponse.json({ error: 'No resume text provided' }, { status: 400 });
+    }
+
+    // Check if API key is configured
+    if (!API_KEY) {
+      return NextResponse.json({ error: 'API key is not configured' }, { status: 500 });
     }
 
     const genAI = new GoogleGenerativeAI(API_KEY);
