@@ -138,6 +138,12 @@ Deploying to Vercel
 This project is optimized for deployment on Vercel. Follow these steps to deploy:
 
 1. Push your code to a GitHub repository
+   ```bash
+   git add .
+   git commit -m "Prepare for Vercel deployment"
+   git push origin main
+   ```
+
 2. Go to [Vercel](https://vercel.com) and sign up/login
 3. Click "New Project" and import your GitHub repository
 4. Configure the project:
@@ -153,5 +159,14 @@ Make sure to add the same environment variables to your Vercel project:
 2. Navigate to Settings > Environment Variables
 3. Add the GEMINI_API_KEY and GEMINI_MODEL variables
 4. Redeploy your application for the changes to take effect
+
+Troubleshooting Deployment Issues
+
+If you encounter issues during deployment:
+
+1. Check the Vercel deployment logs for specific error messages
+2. Ensure your environment variables are correctly set in the Vercel dashboard
+3. Verify that your project is using Node.js v18 or later (set in Vercel project settings)
+4. Make sure your package.json dependencies are compatible with Vercel's environment
 
 For more information, check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
