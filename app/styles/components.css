@@ -1,0 +1,403 @@
+/* HireLoom Component Styles */
+
+/*
+ * BUTTONS
+ * Premium, tactile button styles with subtle hover effects
+ */
+
+/* Base Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-lg);
+  transition: all var(--duration-200) var(--ease-apple);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  gap: var(--space-2);
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-primary-400);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Button Sizes */
+.btn-sm {
+  font-size: var(--text-xs);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.btn-lg {
+  font-size: var(--text-base);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-xl);
+}
+
+/* Primary Button */
+.btn-primary {
+  background-color: var(--color-primary-500);
+  color: var(--color-white);
+  border-color: var(--color-primary-600);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-600);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 112, 243, 0.2);
+}
+
+.btn-primary:active {
+  background-color: var(--color-primary-700);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: var(--color-secondary-500);
+  color: var(--color-white);
+  border-color: var(--color-secondary-600);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-secondary-600);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(111, 48, 255, 0.2);
+}
+
+.btn-secondary:active {
+  background-color: var(--color-secondary-700);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Outline Button */
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-primary-400);
+  border-color: var(--color-primary-400);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary-900);
+  color: var(--color-primary-300);
+  border-color: var(--color-primary-300);
+  transform: translateY(-1px);
+}
+
+.btn-outline:active {
+  background-color: var(--color-primary-900);
+  transform: translateY(0);
+}
+
+/* Ghost Button */
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-text-primary);
+}
+
+.btn-ghost:hover {
+  background-color: var(--color-gray-800);
+  transform: translateY(-1px);
+}
+
+.btn-ghost:active {
+  background-color: var(--color-gray-700);
+  transform: translateY(0);
+}
+
+/* Success Button */
+.btn-success {
+  background-color: var(--color-success-500);
+  color: var(--color-white);
+  border-color: var(--color-success-700);
+}
+
+.btn-success:hover {
+  background-color: var(--color-success-700);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* Error Button */
+.btn-error {
+  background-color: var(--color-error-500);
+  color: var(--color-white);
+  border-color: var(--color-error-700);
+}
+
+.btn-error:hover {
+  background-color: var(--color-error-700);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* Premium Button Styles - New */
+.btn-premium {
+  position: relative;
+  background-color: transparent;
+  color: var(--color-white);
+  border: 1px solid var(--color-primary-500);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-medium);
+  padding: var(--space-4) var(--space-8);
+  overflow: hidden;
+  z-index: 1;
+  transition: all var(--duration-300) var(--ease-apple);
+}
+
+.btn-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: var(--color-primary-500);
+  z-index: -1;
+  transition: width var(--duration-300) var(--ease-apple);
+}
+
+.btn-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(47, 88, 205, 0.25);
+}
+
+.btn-premium:hover::before {
+  width: 100%;
+}
+
+.btn-premium:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(47, 88, 205, 0.2);
+}
+
+/* Main Action Button - For primary actions on pages */
+.btn-main-action {
+  position: relative;
+  background-color: var(--color-primary-500);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-semibold);
+  padding: var(--space-4) var(--space-6);
+  overflow: hidden;
+  z-index: 1;
+  transition: all var(--duration-300) var(--ease-apple);
+  box-shadow: 0 4px 12px rgba(47, 88, 205, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.btn-main-action::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  z-index: -1;
+  transition: left 0.8s var(--ease-apple);
+}
+
+.btn-main-action:hover {
+  background-color: var(--color-primary-600);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(47, 88, 205, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.btn-main-action:hover::before {
+  left: 100%;
+}
+
+.btn-main-action:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(47, 88, 205, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/*
+ * CARDS
+ * Elegant card styles with subtle depth
+ */
+.card {
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: transform var(--duration-300) var(--ease-apple),
+              box-shadow var(--duration-300) var(--ease-apple);
+  border: 1px solid var(--color-gray-800);
+}
+
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-gray-700);
+}
+
+.card-header {
+  padding: var(--space-6);
+  border-bottom: 1px solid var(--color-gray-800);
+}
+
+.card-body {
+  padding: var(--space-6);
+}
+
+.card-footer {
+  padding: var(--space-6);
+  border-top: 1px solid var(--color-gray-800);
+}
+
+/* Card with hover glow effect */
+.card-glow {
+  position: relative;
+}
+
+.card-glow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: box-shadow var(--duration-300) var(--ease-apple);
+  pointer-events: none;
+}
+
+.card-glow:hover::after {
+  box-shadow: 0 0 0 1px var(--color-primary-500),
+              0 0 20px 5px rgba(0, 112, 243, 0.1);
+}
+
+/*
+ * FORM ELEMENTS
+ * Clean, minimal form controls with clear focus states
+ */
+.form-group {
+  margin-bottom: var(--space-6);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-bg-tertiary);
+  border: 1px solid var(--color-gray-700);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-primary);
+  transition: all var(--duration-200) var(--ease-apple);
+  font-size: var(--text-sm);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+  outline: none;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--color-gray-500);
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+  background-size: 16px 16px;
+  padding-right: var(--space-10);
+}
+
+.form-checkbox,
+.form-radio {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--color-gray-600);
+  background-color: var(--color-bg-tertiary);
+  margin-right: var(--space-2);
+  position: relative;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.form-checkbox {
+  border-radius: var(--radius-sm);
+}
+
+.form-radio {
+  border-radius: var(--radius-full);
+}
+
+.form-checkbox:checked,
+.form-radio:checked {
+  background-color: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+}
+
+.form-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.form-radio:checked::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: white;
+}

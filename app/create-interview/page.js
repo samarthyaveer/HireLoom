@@ -14,6 +14,7 @@ export default function CreateInterview() {
   });
   const [loading, setLoading] = useState(false);
   const [generatedLink, setGeneratedLink] = useState('');
+  const [interviewId, setInterviewId] = useState('');
   const [progress, setProgress] = useState(0);
 
   const interviewTypes = [
@@ -70,17 +71,18 @@ export default function CreateInterview() {
 
       if (!response.ok) throw new Error('Failed to generate questions');
       const data = await response.json();
-      const interviewId = `int_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+      const newInterviewId = `int_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
       const interviewData = {
         ...formData,
-        id: interviewId,
+        id: newInterviewId,
         questions: data.questions,
         createdAt: new Date().toISOString(),
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
       };
 
-      localStorage.setItem('interview_' + interviewId, JSON.stringify(interviewData));
-      setGeneratedLink(`${window.location.origin}/interview/${interviewId}`);
+      localStorage.setItem('interview_' + newInterviewId, JSON.stringify(interviewData));
+      setInterviewId(newInterviewId);
+      setGeneratedLink(`${window.location.origin}/interview/${newInterviewId}`);
       setProgress(100);
     } catch (error) {
       console.error('Error generating questions:', error);
@@ -90,30 +92,34 @@ export default function CreateInterview() {
     }
   };
 
+  const startInterview = () => {
+    router.push(`/interview/${interviewId}`);
+  };
+
   return (
-    <div className="min-h-screen w-full bg-black py-10 px-4 md:px-12">
-      <div className="w-full bg-slate-900 rounded-2xl shadow-xl p-8 max-w-6xl mx-auto">
-        <div className="flex items-center mb-6">
-          <Link href="/" className="text-gray-400 hover:text-white mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd" />
+    <div className="min-h-screen w-full py-16 px-4 md:px-12">
+      <div className="w-full bg-dark-950 backdrop-blur-sm rounded-2xl shadow-xl border border-dark-900 p-10 max-w-6xl mx-auto">
+        <div className="flex items-center mb-8">
+          <Link href="/" className="text-secondary-400 hover:text-white mr-3 transition-colors duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
           </Link>
-          <h1 className="text-2xl font-bold text-white">Create New Interview</h1>
+          <h1 className="text-2xl font-bold text-white tracking-tight">Create New Interview</h1>
         </div>
 
         {/* Progress Bar */}
-        <div className="w-full h-2 bg-gray-700 rounded-full mb-6">
+        <div className="w-full h-2 bg-dark-900 rounded-full mb-10 overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-500"
+            className="h-full bg-primary-500 rounded-full transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
 
         {/* Form Inputs */}
-        <div className="grid md:grid-cols-2 gap-6 mb-6">
+        <div className="grid md:grid-cols-2 gap-8 mb-8">
           <div>
-            <label htmlFor="jobPosition" className="block text-white font-medium mb-2">Job Position</label>
+            <label htmlFor="jobPosition" className="block text-secondary-400 font-medium mb-2 text-sm">Job Position</label>
             <input
               type="text"
               id="jobPosition"
@@ -121,18 +127,18 @@ export default function CreateInterview() {
               value={formData.jobPosition}
               onChange={handleInputChange}
               placeholder="e.g. Full Stack Developer"
-              className="w-full p-3 rounded-lg border border-gray-400 bg-slate-800 text-white focus:ring-2 focus:ring-blue-500"
+              className="form-input w-full p-3 rounded-lg border border-dark-800 bg-dark-900 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
               required
             />
           </div>
           <div>
-            <label htmlFor="interviewDuration" className="block text-white font-medium mb-2">Interview Duration</label>
+            <label htmlFor="interviewDuration" className="block text-secondary-400 font-medium mb-2 text-sm">Interview Duration</label>
             <select
               id="interviewDuration"
               name="interviewDuration"
               value={formData.interviewDuration}
               onChange={handleInputChange}
-              className="w-full p-3 rounded-lg border border-gray-400 bg-slate-800 text-white focus:ring-2 focus:ring-blue-500"
+              className="form-select w-full p-3 rounded-lg border border-dark-800 bg-dark-900 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
             >
               {[15, 30, 45, 60, 90].map(min => (
                 <option key={min} value={min}>{min} minutes</option>
@@ -142,50 +148,62 @@ export default function CreateInterview() {
         </div>
 
         {/* Job Description */}
-        <div className="mb-6">
-          <label htmlFor="jobDescription" className="block text-white font-medium mb-2">Job Description</label>
+        <div className="mb-8">
+          <label htmlFor="jobDescription" className="block text-secondary-400 font-medium mb-2 text-sm">Job Description</label>
           <textarea
             id="jobDescription"
             name="jobDescription"
             value={formData.jobDescription}
             onChange={handleInputChange}
             placeholder="Enter detailed job description"
-            className="w-full p-3 rounded-lg border border-gray-400 bg-slate-800 text-white focus:ring-2 focus:ring-blue-500 h-32"
+            className="form-textarea w-full p-4 rounded-lg border border-dark-800 bg-dark-900 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 h-36"
             required
           ></textarea>
         </div>
 
         {/* Interview Type Selection */}
-        <div className="mb-8">
-          <label className="block text-white font-medium mb-2">Interview Type</label>
+        <div className="mb-10">
+          <label className="block text-secondary-400 font-medium mb-3 text-sm">Interview Type</label>
           <div className="flex flex-wrap gap-3">
             {interviewTypes.map((type) => (
               <button
                 key={type.id}
                 type="button"
                 onClick={() => toggleInterviewType(type.id)}
-                className={`px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition ${
-                  formData.interviewTypes.includes(type.id)
-                    ? 'bg-blue-500 text-white border border-blue-700'
-                    : 'bg-gray-700 text-white border border-gray-500 hover:bg-gray-600'
-                }`}
+                style={{
+                  padding: '0.75rem 1.25rem',
+                  borderRadius: '0.5rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  transition: 'all 0.3s ease',
+                  backgroundColor: formData.interviewTypes.includes(type.id) ? '#2F58CD' : '#121212',
+                  color: formData.interviewTypes.includes(type.id) ? 'white' : '#94A3B8',
+                  border: `1px solid ${formData.interviewTypes.includes(type.id) ? '#2F58CD' : '#1E293B'}`,
+                  boxShadow: formData.interviewTypes.includes(type.id) ? '0 10px 15px -3px rgba(47, 88, 205, 0.2)' : 'none'
+                }}
+                className="interview-type-btn"
               >
-                <span>{type.icon}</span>
-                <span>{type.label}</span>
+                <span style={{ fontSize: '1.125rem', position: 'relative', zIndex: 10 }}>{type.icon}</span>
+                <span style={{ position: 'relative', zIndex: 10 }}>{type.label}</span>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Generate or Display Link */}
+        {/* Generate Questions or Display Results */}
         {!generatedLink ? (
           <button
             onClick={handleGenerateQuestions}
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+            className="w-full btn-main-action"
           >
             {loading ? (
-              <span className="flex items-center justify-center gap-2">
+              <span className="flex items-center justify-center gap-3">
                 <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
@@ -193,45 +211,70 @@ export default function CreateInterview() {
                 Generating Questions...
               </span>
             ) : (
-              "Generate Question"
+              "Generate Questions"
             )}
           </button>
         ) : (
-          <div className="bg-green-100 border border-green-300 p-4 rounded-lg text-green-800 space-y-4">
-            <div>
-              <strong>Interview Created Successfully!</strong>
-              <p>Share this link with your candidate:</p>
+          <div className="bg-dark-950 border border-dark-900 p-8 space-y-8 rounded-xl">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-500/10 text-primary-500 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Interview Created Successfully!</h3>
+              <p className="text-secondary-400">Your interview is ready with {formData.interviewTypes.length} question types.</p>
             </div>
-            <div className="flex">
-              <input
-                type="text"
-                value={generatedLink}
-                readOnly
-                className="w-full p-2 rounded-l-md border border-gray-300 bg-white"
-              />
+
+            <div className="space-y-3">
+              <p className="font-medium text-secondary-400 text-sm">Share this link with candidates:</p>
+              <div className="flex">
+                <input
+                  type="text"
+                  value={generatedLink}
+                  readOnly
+                  className="w-full p-3 rounded-l-lg border border-dark-800 bg-dark-900 font-mono text-sm text-white"
+                />
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(generatedLink);
+                    alert('Link copied to clipboard!');
+                  }}
+                  className="bg-primary-500 text-white px-5 rounded-r-lg relative overflow-hidden group focus:outline-none"
+                >
+                  <span className="relative z-10">Copy</span>
+                  <div className="absolute inset-0 bg-primary-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <button
+                onClick={startInterview}
+                className="flex-1 btn-main-action flex items-center justify-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                </svg>
+                Start Interview Now
+              </button>
+
               <button
                 onClick={() => {
-                  navigator.clipboard.writeText(generatedLink);
-                  alert('Link copied to clipboard!');
+                  setFormData({
+                    jobPosition: '',
+                    jobDescription: '',
+                    interviewDuration: '30',
+                    interviewTypes: []
+                  });
+                  setGeneratedLink('');
+                  setInterviewId('');
+                  setProgress(0);
                 }}
-                className="bg-blue-600 text-white px-4 rounded-r-md hover:bg-blue-700"
+                className="flex-1 btn-premium"
               >
-                Copy
+                <span className="relative z-10">Create Another Interview</span>
               </button>
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={() => router.push('/interviews')}
-                className="bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-800"
-              >
-                View All Interviews
-              </button>
-              <Link
-                href="/"
-                className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-              >
-                Create Another
-              </Link>
             </div>
           </div>
         )}

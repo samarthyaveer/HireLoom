@@ -1,7 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-
-// Use environment variable for API key
-const API_KEY = process.env.GEMINI_API_KEY;
+import { GEMINI_API_KEY, GEMINI_MODEL, isGeminiConfigured } from '@/lib/env';
 
 export async function POST(request) {
   try {
@@ -9,20 +7,24 @@ export async function POST(request) {
     const { jobPosition, jobDescription, interviewTypes, duration } = requestData;
 
     // Check if API key is configured
-    if (!API_KEY) {
-      throw new Error('Gemini API key is not configured. Please set GEMINI_API_KEY in your environment.');
+    if (!isGeminiConfigured()) {
+      return Response.json(
+        { error: 'Gemini API key is not configured. Please set GEMINI_API_KEY in your environment.' },
+        { status: 500 }
+      );
     }
-    
-    const genAI = new GoogleGenerativeAI(API_KEY);
-    const model = genAI.getGenerativeModel({ model: process.env.GEMINI_MODEL || "gemini-2.0-flash" });
+
+    // Initialize the Gemini API client
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
 
     // Ensure randomness using a dynamic context (e.g., timestamp)
     const randomizer = Date.now();
 
     const prompt = `
 You are an expert interviewer and HR specialist. Your task is to generate exactly **10 unique and professional interview questions** for the role of ${jobPosition}.
-    
-Job Description: 
+
+Job Description:
 ${jobDescription}
 
 Interview Duration: Approximately ${duration} minutes.

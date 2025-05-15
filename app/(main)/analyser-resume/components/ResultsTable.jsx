@@ -6,7 +6,7 @@ export default function ResultsTable({ results }) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-gray-900 border border-gray-700 text-white">
+      <table className="min-w-full bg-dark-900 border border-dark-800 text-white">
         <thead>
           <tr>
             {[
@@ -19,7 +19,7 @@ export default function ResultsTable({ results }) {
             ].map((heading, i) => (
               <th
                 key={i}
-                className="px-6 py-3 border-b border-gray-600 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider"
+                className="px-6 py-3 border-b border-dark-800 bg-dark-950 text-left text-xs font-semibold uppercase tracking-wider text-secondary-400"
               >
                 {heading}
               </th>
@@ -37,46 +37,49 @@ export default function ResultsTable({ results }) {
             const skills = result.technicalSkills?.matchingSkills || result.keySkills || [];
 
             return (
-              <tr key={index} className={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-900'}>
-                <td className="px-6 py-4 whitespace-nowrap border-b border-gray-700">{name}</td>
-                <td className="px-6 py-4 whitespace-nowrap border-b border-gray-700">
+              <tr key={index} className={index % 2 === 0 ? 'bg-dark-950' : 'bg-dark-900'}>
+                <td className="px-6 py-4 whitespace-nowrap border-b border-dark-800 text-white">{name}</td>
+                <td className="px-6 py-4 whitespace-nowrap border-b border-dark-800">
                   <div className="flex items-center">
-                    <span className="text-sm font-medium">{atsScore}</span>
-                    <div className="ml-2 w-16 bg-gray-700 rounded-full h-2">
+                    <span className="text-sm font-medium text-white">{atsScore}</span>
+                    <div className="ml-2 w-16 bg-dark-800 rounded-full h-2">
                       <div
                         className={`h-2 rounded-full ${
-                          atsScore >= 75 ? 'bg-green-500' :
-                          atsScore >= 50 ? 'bg-yellow-500' : 'bg-red-500'
+                          atsScore >= 75 ? 'bg-primary-500' :
+                          atsScore >= 50 ? 'bg-primary-600' : 'bg-error-500'
                         }`}
                         style={{ width: `${atsScore}%` }}
                       ></div>
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap border-b border-gray-700">
+                <td className="px-6 py-4 whitespace-nowrap border-b border-dark-800">
                   <span
-                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                      ${isMatch ? 'bg-green-200 text-green-900' : 'bg-red-200 text-red-900'}`}
+                    className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      isMatch
+                        ? 'bg-primary-900/30 text-primary-300 border border-primary-800'
+                        : 'bg-error-900/30 text-error-300 border border-error-800'
+                    }`}
                   >
                     {isMatch ? 'Good Match' : 'Not a Match'}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap border-b border-gray-700">
+                <td className="px-6 py-4 whitespace-nowrap border-b border-dark-800 text-white">
                   {yearsExp} {typeof yearsExp === 'number' ? 'years' : ''}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap border-b border-gray-700">
+                <td className="px-6 py-4 whitespace-nowrap border-b border-dark-800 text-white">
                   {typeof skillsMatch === 'number' ? `${skillsMatch}%` : skillsMatch}
                 </td>
-                <td className="px-6 py-4 border-b border-gray-700">
+                <td className="px-6 py-4 border-b border-dark-800">
                   <div className="text-sm">
-                    {Array.isArray(skills) ? (
+                    {Array.isArray(skills) && skills.length > 0 ? (
                       skills.map((skill, i) => (
-                        <span key={i} className="inline-block bg-gray-700 rounded-full px-3 py-1 text-xs font-semibold text-gray-300 mr-2 mb-2">
+                        <span key={i} className="inline-block bg-dark-800 border border-dark-700 rounded-lg px-3 py-1 text-xs font-medium text-secondary-400 mr-2 mb-2 transition-colors duration-200 hover:bg-dark-700">
                           {skill}
                         </span>
                       ))
                     ) : (
-                      <span className="text-gray-400">No skills found</span>
+                      <span className="text-secondary-400">No skills found</span>
                     )}
                   </div>
                 </td>

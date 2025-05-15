@@ -85,7 +85,7 @@ export default function UploadForm({ onAnalysisStart, onAnalysisComplete, onErro
     if (resumes.length === 0) return onError('Please upload at least one resume');
     if (!jobDescText.trim()) return onError('Please enter a job description');
     if (!jobTitle.trim()) return onError('Please select a job title');
-    
+
     // Check if at least one analysis factor is selected
     if (!Object.values(analysisFactors).some(value => value)) {
       return onError('Please select at least one analysis factor');
@@ -118,70 +118,73 @@ export default function UploadForm({ onAnalysisStart, onAnalysisComplete, onErro
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg shadow-md text-white">
-      <div className="mb-4">
-        <label className="block text-sm font-bold mb-2">Job Title</label>
-        <select
-          value={jobTitle}
-          onChange={(e) => setJobTitle(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-900 text-white focus:outline-none focus:shadow-outline"
-          required
-        >
-          <option value="">Select a job title</option>
-          {jobRoles.map((role, index) => (
-            <option key={index} value={role}>
-              {role}
-            </option>
-          ))}
-        </select>
+    <form onSubmit={handleSubmit} className="bg-dark-950 border border-dark-900 p-8 rounded-xl shadow-xl">
+      <div className="grid md:grid-cols-2 gap-8 mb-8">
+        <div>
+          <label htmlFor="jobTitle" className="block text-secondary-400 font-medium mb-2 text-sm">Job Position</label>
+          <select
+            id="jobTitle"
+            value={jobTitle}
+            onChange={(e) => setJobTitle(e.target.value)}
+            className="form-select w-full p-3 rounded-lg border border-dark-800 bg-dark-900 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+            required
+          >
+            <option value="">Select a job position</option>
+            {jobRoles.map((role, index) => (
+              <option key={index} value={role}>
+                {role}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-secondary-400 font-medium mb-2 text-sm">Upload Resumes (Maximum 10 PDFs)</label>
+          <input
+            type="file"
+            onChange={handleResumeChange}
+            className="block w-full text-sm text-secondary-400 file:mr-4 file:py-3 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary-500 file:text-white hover:file:bg-primary-600 transition-all duration-200"
+            accept=".pdf"
+            multiple
+            required
+          />
+          <p className="text-xs text-secondary-400 mt-2">Selected files: {resumes.length}</p>
+        </div>
       </div>
 
-      <div className="mb-4">
-        <label className="block text-sm font-bold mb-2">Enter Job Description</label>
+      <div className="mb-8">
+        <label htmlFor="jobDescription" className="block text-secondary-400 font-medium mb-2 text-sm">Job Description</label>
         <textarea
+          id="jobDescription"
           value={jobDescText}
           onChange={(e) => setJobDescText(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-900 text-white focus:outline-none focus:shadow-outline"
-          placeholder="Paste or type the job description here"
-          rows="6"
+          className="form-textarea w-full p-4 rounded-lg border border-dark-800 bg-dark-900 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 h-36"
+          placeholder="Enter detailed job description"
           required
         />
       </div>
 
-      <div className="mb-6">
-        <label className="block text-sm font-bold mb-2">Upload Resumes (Maximum 10 PDFs)</label>
-        <input
-          type="file"
-          onChange={handleResumeChange}
-          className="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-900 file:text-blue-300 hover:file:bg-blue-800"
-          accept=".pdf"
-          multiple
-          required
-        />
-        <p className="text-sm text-gray-400 mt-1">Selected files: {resumes.length}</p>
-      </div>
-
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <label className="block text-sm font-bold">Analysis Criteria</label>
+      <div className="mb-10">
+        <div className="flex justify-between items-center mb-3">
+          <label className="block text-secondary-400 font-medium text-sm">Analysis Criteria</label>
           <div className="space-x-2">
-            <button 
-              type="button" 
+            <button
+              type="button"
               onClick={selectAllFactors}
-              className="px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 rounded"
+              className="px-3 py-1.5 text-xs bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors duration-200"
             >
               Select All
             </button>
-            <button 
-              type="button" 
+            <button
+              type="button"
               onClick={clearAllFactors}
-              className="px-2 py-1 text-xs bg-gray-600 hover:bg-gray-700 rounded"
+              className="px-3 py-1.5 text-xs bg-dark-800 hover:bg-dark-700 text-secondary-400 rounded-lg transition-colors duration-200"
             >
               Clear All
             </button>
           </div>
         </div>
-        <div className="bg-gray-900 p-3 rounded grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="bg-dark-900 p-4 rounded-lg border border-dark-800 grid grid-cols-2 md:grid-cols-3 gap-4">
           {factorOptions.map((factor) => (
             <div key={factor.id} className="flex items-center">
               <input
@@ -189,9 +192,9 @@ export default function UploadForm({ onAnalysisStart, onAnalysisComplete, onErro
                 type="checkbox"
                 checked={analysisFactors[factor.id]}
                 onChange={() => handleFactorChange(factor.id)}
-                className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-600"
+                className="w-4 h-4 text-primary-500 bg-dark-800 border-dark-700 rounded focus:ring-primary-500 focus:ring-offset-dark-900"
               />
-              <label htmlFor={factor.id} className="ml-2 text-sm font-medium text-gray-300">
+              <label htmlFor={factor.id} className="ml-2 text-sm font-medium text-secondary-400">
                 {factor.label}
               </label>
             </div>
@@ -200,25 +203,23 @@ export default function UploadForm({ onAnalysisStart, onAnalysisComplete, onErro
       </div>
 
       {uploadProgress > 0 && (
-        <div className="mb-4">
-          <div className="w-full bg-gray-600 rounded-full h-2.5">
+        <div className="mb-6">
+          <div className="w-full bg-dark-800 rounded-full h-2">
             <div
-              className="bg-blue-500 h-2.5 rounded-full"
+              className="bg-primary-500 h-2 rounded-full transition-all duration-300"
               style={{ width: `${uploadProgress}%` }}
             ></div>
           </div>
-          <p className="text-xs text-center mt-1 text-gray-300">{uploadProgress}% uploaded</p>
+          <p className="text-xs text-center mt-2 text-secondary-400">{uploadProgress}% uploaded</p>
         </div>
       )}
 
-      <div className="flex items-center justify-center">
-        <button
-          type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
-        >
-          Analyze Resumes
-        </button>
-      </div>
+      <button
+        type="submit"
+        className="w-full btn-main-action"
+      >
+        Analyze Resumes
+      </button>
     </form>
   );
 }

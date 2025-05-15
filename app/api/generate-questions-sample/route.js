@@ -1,10 +1,7 @@
-// app/api/generate-questions/route.js
+// app/api/generate-questions-sample/route.js
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { log } from 'console';
-
-const API_KEY = process.env.GEMINI_API_KEY;
-const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+import { GEMINI_API_KEY, GEMINI_MODEL, isGeminiConfigured } from '@/lib/env';
 
 export async function POST(request) {
   try {
@@ -15,12 +12,15 @@ export async function POST(request) {
     }
 
     // Check if API key is configured
-    if (!API_KEY) {
-      return NextResponse.json({ error: 'API key is not configured' }, { status: 500 });
+    if (!isGeminiConfigured()) {
+      return NextResponse.json({
+        error: 'Gemini API key is not configured. Please set GEMINI_API_KEY in your environment.',
+      }, { status: 500 });
     }
 
-    const genAI = new GoogleGenerativeAI(API_KEY);
-    const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+    // Initialize the Gemini API client
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
 
     // Step 1: Ask Gemini to extract the candidate's name
     const namePrompt = `
@@ -34,8 +34,6 @@ export async function POST(request) {
     const nameResult = await model.generateContent(namePrompt);
     const nameRaw = await nameResult.response.text();
     const candidateName = nameRaw.replace(/["']/g, "").trim();
-    console.log(nameRaw);
-    
 
     // Step 2: Generate the 10 interview questions
     const questionsPrompt = `
@@ -65,13 +63,13 @@ export async function POST(request) {
     try {
       questions = JSON.parse(text);
     } catch (error) {
-      console.error("Failed to parse JSON:", error);
+      // Try to extract JSON from the response if direct parsing fails
       const jsonMatch = text.match(/\[\s*\{[\s\S]*\}\s*\]/);
       if (jsonMatch) {
         try {
           questions = JSON.parse(jsonMatch[0]);
         } catch (innerError) {
-          console.error("Failed secondary JSON parsing:", innerError);
+          // If both parsing attempts fail, questions will remain undefined
         }
       }
     }
@@ -82,7 +80,6 @@ export async function POST(request) {
 
     return NextResponse.json({ name: candidateName, questions });
   } catch (error) {
-    console.error('Error:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

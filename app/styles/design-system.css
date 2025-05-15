@@ -1,0 +1,232 @@
+/* HireLoom Design System - Inspired by Apple, Stripe, and Notion */
+
+/*
+ * TYPOGRAPHY
+ * Using a premium font stack with system fonts for optimal performance
+ * Font scale follows a perfect 4th ratio (1.25)
+ */
+:root {
+  /* Font Family */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+               Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
+               'Segoe UI Emoji', 'Segoe UI Symbol';
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+               'Liberation Mono', 'Courier New', monospace;
+  --font-display: var(--font-sans);
+
+  /* Font Sizes */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  --text-5xl: 3rem;      /* 48px */
+  --text-6xl: 3.75rem;   /* 60px */
+  --text-7xl: 4.5rem;    /* 72px */
+  --text-8xl: 6rem;      /* 96px */
+
+  /* Font Weights */
+  --font-thin: 100;
+  --font-extralight: 200;
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  --font-black: 900;
+
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+}
+
+/*
+ * COLOR PALETTE
+ * Premium, high-contrast but subtle color palette
+ * Inspired by Apple's dark mode aesthetics
+ */
+:root {
+  /* Base Colors */
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+  /* Primary Colors - Royal Blue (#2F58CD) */
+  --color-primary-50: #eef3ff;
+  --color-primary-100: #dce7ff;
+  --color-primary-200: #c0d1ff;
+  --color-primary-300: #94b0ff;
+  --color-primary-400: #6285ff;
+  --color-primary-500: #2F58CD;
+  --color-primary-600: #2647a3;
+  --color-primary-700: #1e3a85;
+  --color-primary-800: #19306d;
+  --color-primary-900: #152a5c;
+
+  /* Secondary Colors - Light Gray (#AFAFAF) */
+  --color-secondary-50: #f8f8f8;
+  --color-secondary-100: #f0f0f0;
+  --color-secondary-200: #e4e4e4;
+  --color-secondary-300: #d1d1d1;
+  --color-secondary-400: #AFAFAF;
+  --color-secondary-500: #9a9a9a;
+  --color-secondary-600: #818181;
+  --color-secondary-700: #6a6a6a;
+  --color-secondary-800: #5a5a5a;
+  --color-secondary-900: #3d3d3d;
+
+  /* Dark Colors - Based on Black (#000000) */
+  --color-dark-50: #f2f2f2;
+  --color-dark-100: #e6e6e6;
+  --color-dark-200: #cccccc;
+  --color-dark-300: #b3b3b3;
+  --color-dark-400: #999999;
+  --color-dark-500: #808080;
+  --color-dark-600: #666666;
+  --color-dark-700: #4d4d4d;
+  --color-dark-800: #333333;
+  --color-dark-900: #1a1a1a;
+  --color-dark-950: #0d0d0d;
+  --color-dark-1000: #000000;
+
+  /* Success Colors - Green */
+  --color-success-50: #ecfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-500: #10b981;
+  --color-success-700: #047857;
+  --color-success-900: #064e3b;
+
+  /* Warning Colors - Amber */
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-500: #f59e0b;
+  --color-warning-700: #b45309;
+  --color-warning-900: #78350f;
+
+  /* Error Colors - Red */
+  --color-error-50: #fef2f2;
+  --color-error-100: #fee2e2;
+  --color-error-500: #ef4444;
+  --color-error-700: #b91c1c;
+  --color-error-900: #7f1d1d;
+
+  /* Dark Mode Specific */
+  --color-bg-primary: var(--color-dark-1000);
+  --color-bg-secondary: var(--color-dark-950);
+  --color-bg-tertiary: var(--color-dark-900);
+  --color-bg-accent: var(--color-primary-800);
+
+  --color-text-primary: var(--color-white);
+  --color-text-secondary: var(--color-secondary-400);
+  --color-text-tertiary: var(--color-secondary-600);
+  --color-text-accent: var(--color-primary-400);
+}
+
+/*
+ * SPACING
+ * Consistent spacing scale for margins, paddings, and gaps
+ */
+:root {
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 0.125rem; /* 2px */
+  --space-1: 0.25rem;    /* 4px */
+  --space-1-5: 0.375rem; /* 6px */
+  --space-2: 0.5rem;     /* 8px */
+  --space-2-5: 0.625rem; /* 10px */
+  --space-3: 0.75rem;    /* 12px */
+  --space-3-5: 0.875rem; /* 14px */
+  --space-4: 1rem;       /* 16px */
+  --space-5: 1.25rem;    /* 20px */
+  --space-6: 1.5rem;     /* 24px */
+  --space-7: 1.75rem;    /* 28px */
+  --space-8: 2rem;       /* 32px */
+  --space-9: 2.25rem;    /* 36px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-11: 2.75rem;   /* 44px */
+  --space-12: 3rem;      /* 48px */
+  --space-14: 3.5rem;    /* 56px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+  --space-28: 7rem;      /* 112px */
+  --space-32: 8rem;      /* 128px */
+  --space-36: 9rem;      /* 144px */
+  --space-40: 10rem;     /* 160px */
+  --space-44: 11rem;     /* 176px */
+  --space-48: 12rem;     /* 192px */
+  --space-52: 13rem;     /* 208px */
+  --space-56: 14rem;     /* 224px */
+  --space-60: 15rem;     /* 240px */
+  --space-64: 16rem;     /* 256px */
+  --space-72: 18rem;     /* 288px */
+  --space-80: 20rem;     /* 320px */
+  --space-96: 24rem;     /* 384px */
+}
+
+/*
+ * BORDERS & SHADOWS
+ * Refined borders and shadows for depth and elevation
+ */
+:root {
+  /* Border Radius */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;  /* 2px */
+  --radius-md: 0.375rem;  /* 6px */
+  --radius-lg: 0.5rem;    /* 8px */
+  --radius-xl: 0.75rem;   /* 12px */
+  --radius-2xl: 1rem;     /* 16px */
+  --radius-3xl: 1.5rem;   /* 24px */
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  --shadow-none: 0 0 #0000;
+
+  /* Glow Effects */
+  --glow-primary: 0 0 15px rgba(47, 88, 205, 0.5);
+  --glow-secondary: 0 0 15px rgba(175, 175, 175, 0.3);
+}
+
+/*
+ * TRANSITIONS & ANIMATIONS
+ * Smooth, subtle transitions and animations
+ */
+:root {
+  /* Transition Durations */
+  --duration-75: 75ms;
+  --duration-100: 100ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-500: 500ms;
+  --duration-700: 700ms;
+  --duration-1000: 1000ms;
+
+  /* Transition Timing Functions */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-apple: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
