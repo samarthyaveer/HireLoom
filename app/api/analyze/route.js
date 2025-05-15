@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { extractTextFromPDF } from '@/lib/pdfParser';
+import { extractTextFromPDF } from '@/lib/serverlessPdfParser';
 import { analyzeResume } from '@/lib/geminiClient';
 
 export const config = {
   api: {
     bodyParser: false,
-    responseLimit: false,
+    responseLimit: '10mb',
   },
 };
 
@@ -15,14 +15,14 @@ export async function POST(request) {
     const jobDescText = formData.get('jobDescText');
     const jobTitle = formData.get('jobTitle');
     const analysisFactorsString = formData.get('analysisFactors');
-    
+
     if (!jobDescText || !jobTitle) {
       return NextResponse.json(
         { error: 'Job description and title are required' },
         { status: 400 }
       );
     }
-    
+
     // Parse analysis factors
     let analysisFactors = {
       skills: true,
@@ -32,7 +32,7 @@ export async function POST(request) {
       certifications: true,
       resumeQuality: true
     };
-    
+
     try {
       if (analysisFactorsString) {
         analysisFactors = JSON.parse(analysisFactorsString);
@@ -41,7 +41,7 @@ export async function POST(request) {
       console.error('Error parsing analysis factors:', error);
       // Continue with default factors if parsing fails
     }
-    
+
     // Collect all resume files from the form data
     const resumeFiles = [];
     let i = 1;
@@ -49,23 +49,23 @@ export async function POST(request) {
       resumeFiles.push(formData.get(`resume${i}`));
       i++;
     }
-    
+
     if (resumeFiles.length === 0) {
       return NextResponse.json(
         { error: 'At least one resume is required' },
         { status: 400 }
       );
     }
-    
+
     // Process each resume in parallel
     const analysisPromises = resumeFiles.map(async (resumeFile) => {
       const resumeBuffer = Buffer.from(await resumeFile.arrayBuffer());
       const resumeText = await extractTextFromPDF(resumeBuffer);
       return await analyzeResume(resumeText, jobDescText, jobTitle, analysisFactors);
     });
-    
+
     const results = await Promise.all(analysisPromises);
-    
+
     return NextResponse.json({ results });
   } catch (error) {
     console.error('Error in resume analysis:', error);

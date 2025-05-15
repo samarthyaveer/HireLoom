@@ -38,8 +38,18 @@ const nextConfig = {
       stream: false,
       path: false,
       process: false,
+      crypto: false,
+      zlib: false,
     };
     return config;
+  },
+
+  // Increase serverless function timeout and memory for PDF processing
+  serverRuntimeConfig: {
+    // Will only be available on the server side
+    pdf: {
+      maxPages: 50,
+    }
   },
 };
 
